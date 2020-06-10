@@ -9,11 +9,13 @@ import { MetadataEntry } from './metadata-schema';
 export interface Assembly {
   /**
    * The schema for `manifest.json`.
+   * @default - no manifest file
    */
   readonly manifest?: AssemblyManifest;
 
   /**
    * The schema for `assets.json`.
+   * @default - no assets file
    */
   readonly assets?: ManifestFile;
 }
