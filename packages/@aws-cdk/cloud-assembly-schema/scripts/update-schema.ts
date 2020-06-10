@@ -41,7 +41,7 @@ export function generate(out: string, shouldBump: boolean) {
   };
 
   const program = tjs.getProgramFromFiles([path.join(__dirname, '../lib/schema.d.ts')], compilerOptions);
-  const schema = tjs.generateSchema(program, 'AssemblyManifest', settings);
+  const schema = tjs.generateSchema(program, 'Assembly', settings);
 
   augmentDescription(schema);
   addAnyMetadataEntry(schema);

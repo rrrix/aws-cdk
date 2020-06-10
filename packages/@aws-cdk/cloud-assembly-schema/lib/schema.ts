@@ -1,6 +1,22 @@
 import { ArtifactProperties } from './artifact-schema';
+import { ManifestFile } from './assets';
 import { ContextProvider, ContextQueryProperties } from './context-queries';
 import { MetadataEntry } from './metadata-schema';
+
+/**
+ * Schemas for various manifests within the cloud assembly.
+ */
+export interface Assembly {
+  /**
+   * The schema for `manifest.json`.
+   */
+  readonly manifest?: AssemblyManifest;
+
+  /**
+   * The schema for `assets.json`.
+   */
+  readonly assets?: ManifestFile;
+}
 
 /**
  * Type of cloud artifact.

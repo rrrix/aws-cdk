@@ -168,7 +168,6 @@
   "dependencies": {
     "minimatch": "^3.0.4",
     "@aws-cdk/cx-api": "0.0.0",
-    "@aws-cdk/cdk-assets-schema": "0.0.0",
     "@aws-cdk/cloud-assembly-schema": "0.0.0",
     "constructs": "^3.0.2"
   },
@@ -177,7 +176,6 @@
   ],
   "homepage": "https://github.com/aws/aws-cdk",
   "peerDependencies": {
-    "@aws-cdk/cdk-assets-schema": "0.0.0",
     "@aws-cdk/cloud-assembly-schema": "0.0.0",
     "@aws-cdk/cx-api": "0.0.0",
     "constructs": "^3.0.2"

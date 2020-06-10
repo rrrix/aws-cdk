@@ -1,4 +1,4 @@
-import { AssetManifestSchema, FileAssetPackaging } from '../lib';
+import { AssetManifestSchema, FileAssetPackaging } from '../lib/assets';
 
 describe('Docker image asset', () => {
   test('valid input', () => {
@@ -34,7 +34,7 @@ describe('Docker image asset', () => {
           },
         },
       });
-    }).toThrow(/dockerImages: source: Expected key 'directory' missing/);
+    }).toThrow(/instance\.assets\.dockerImages\.asset\.source requires property \"directory\"/);
   });
 });
 
@@ -108,7 +108,7 @@ describe('File asset', () => {
             },
           },
         });
-      }).toThrow(/Expected a string, got '3'/);
+      }).toThrow(/instance\.assets\.files\.asset\.source\.path is not of a type\(s\) string/);
     });
 
     test('bad "source.packaging" property', () => {
@@ -131,7 +131,7 @@ describe('File asset', () => {
             },
           },
         });
-      }).toThrow(/Expected a FileAssetPackaging \(one of [^)]+\), got 'BLACK_HOLE'/);
+      }).toThrow(/instance\.assets\.files\.asset\.source\.packaging is not one of enum values: file,zip/);
     });
   });
 });

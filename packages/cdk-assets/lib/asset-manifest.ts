@@ -1,5 +1,5 @@
-import { AssetManifestSchema, DockerImageDestination, DockerImageSource, FileDestination,
-  FileSource, ManifestFile } from '@aws-cdk/cdk-assets-schema';
+import { DockerImageDestination, DockerImageSource, FileDestination,
+  FileSource, Manifest, ManifestFile } from '@aws-cdk/cloud-assembly-schema';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -17,10 +17,7 @@ export class AssetManifest {
    */
   public static fromFile(fileName: string) {
     try {
-      const obj = JSON.parse(fs.readFileSync(fileName, { encoding: 'utf-8' }));
-
-      AssetManifestSchema.validate(obj);
-
+      const obj = Manifest.loadAssetManifest(fileName);
       return new AssetManifest(path.dirname(fileName), obj);
     } catch (e) {
       throw new Error(`Canot read asset manifest '${fileName}': ${e.message}`);

@@ -1,4 +1,3 @@
-import * as asset_schema from '@aws-cdk/cdk-assets-schema';
 import * as cxschema from '@aws-cdk/cloud-assembly-schema';
 import * as cxapi from '@aws-cdk/cx-api';
 import * as fs from 'fs';
@@ -178,8 +177,8 @@ export class DefaultStackSynthesizer implements IStackSynthesizer {
   private fileAssetPublishingRoleArn?: string;
   private imageAssetPublishingRoleArn?: string;
 
-  private readonly files: NonNullable<asset_schema.ManifestFile['files']> = {};
-  private readonly dockerImages: NonNullable<asset_schema.ManifestFile['dockerImages']> = {};
+  private readonly files: NonNullable<cxschema.ManifestFile['files']> = {};
+  private readonly dockerImages: NonNullable<cxschema.ManifestFile['dockerImages']> = {};
 
   constructor(private readonly props: DefaultStackSynthesizerProps = {}) {
   }
@@ -365,8 +364,8 @@ export class DefaultStackSynthesizer implements IStackSynthesizer {
     const manifestFile = `${artifactId}.json`;
     const outPath = path.join(session.assembly.outdir, manifestFile);
 
-    const manifest: asset_schema.ManifestFile = {
-      version: asset_schema.AssetManifestSchema.currentVersion(),
+    const manifest: cxschema.ManifestFile = {
+      version: cxschema.AssetManifestSchema.currentVersion(),
       files: this.files,
       dockerImages: this.dockerImages,
     };

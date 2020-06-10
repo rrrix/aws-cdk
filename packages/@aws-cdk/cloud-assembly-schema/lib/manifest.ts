@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as jsonschema from 'jsonschema';
 import * as semver from 'semver';
+import * as assets from './assets';
 import { ArtifactMetadataEntryType } from './metadata-schema';
 import * as assembly from './schema';
 
@@ -19,7 +20,8 @@ export class Manifest {
    * @param manifest - manifest.
    */
   public static save(manifest: assembly.AssemblyManifest, filePath: string) {
-    fs.writeFileSync(filePath, JSON.stringify(manifest, undefined, 2));
+    const withVersion = { version: Manifest.version(), ...manifest };
+    fs.writeFileSync(filePath, JSON.stringify(withVersion, undefined, 2));
   }
 
   /**
@@ -30,7 +32,27 @@ export class Manifest {
   public static load(filePath: string): assembly.AssemblyManifest {
     const raw: assembly.AssemblyManifest = JSON.parse(fs.readFileSync(filePath, 'UTF-8'));
     Manifest.patchStackTags(raw);
-    Manifest.validate(raw);
+    Manifest._validate({ manifest: raw }, raw.version);
+    return raw;
+  }
+
+  /**
+   * Saves `assets.json` to a file.
+   * @param assetManifest - the manifest
+   * @param filePath - the output file
+   */
+  public static saveAssetManifest(assetManifest: assets.ManifestFile, filePath: string) {
+    const withVersion = { version: Manifest.version(), ...assetManifest };
+    fs.writeFileSync(filePath, JSON.stringify(withVersion, undefined, 2));
+  }
+
+  /**
+   * Loads `assets.json` and validates it against the schema.
+   * @param filePath - the file to load
+   */
+  public static loadAssetManifest(filePath: string): assets.ManifestFile {
+    const raw: assets.ManifestFile = JSON.parse(fs.readFileSync(filePath, 'UTF-8'));
+    Manifest._validate({ assets: raw }, raw.version);
     return raw;
   }
 
@@ -42,21 +64,21 @@ export class Manifest {
     return require('../schema/cloud-assembly.version.json').version;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  private static schema: jsonschema.Schema = require('../schema/cloud-assembly.schema.json');
+  /**
+   * @internal
+   */
+  public static _validate(assmbly: assembly.Assembly, version: string) {
 
-  private static validate(manifest: assembly.AssemblyManifest) {
-
-    function parseVersion(version: string) {
-      const ver = semver.valid(version);
+    function parseVersion(v: string) {
+      const ver = semver.valid(v);
       if (!ver) {
-        throw new Error(`Invalid semver string: "${version}"`);
+        throw new Error(`Invalid semver string: "${v}"`);
       }
       return ver;
     }
 
     const maxSupported = parseVersion(Manifest.version());
-    const actual = parseVersion(manifest.version);
+    const actual = parseVersion(version);
 
     // first validate the version should be accepted.
     if (semver.gt(actual, maxSupported)) {
@@ -67,7 +89,7 @@ export class Manifest {
 
     // now validate the format is good.
     const validator = new jsonschema.Validator();
-    const result = validator.validate(manifest, Manifest.schema, {
+    const result = validator.validate(assmbly, Manifest.schema, {
 
       // does exist but is not in the TypeScript definitions
       nestedErrors: true,
@@ -80,6 +102,9 @@ export class Manifest {
     }
 
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  private static schema: jsonschema.Schema = require('../schema/cloud-assembly.schema.json');
 
   /**
    * This requires some explaining...
