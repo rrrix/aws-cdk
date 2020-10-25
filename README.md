@@ -7,6 +7,7 @@
 [![NuGet version](https://badge.fury.io/nu/Amazon.CDK.svg)](https://badge.fury.io/nu/Amazon.CDK)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/software.amazon.awscdk/core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/software.amazon.awscdk/core)
 [![Mergify](https://img.shields.io/endpoint.svg?url=https://gh.mergify.io/badges/aws/aws-cdk&style=flat)](https://mergify.io)
+[![Slack](https://img.shields.io/badge/slack-cdk.dev-brightgreen)](https://cdk-dev.slack.com/join/shared_invite/zt-gff3dtkw-MsEPa5Id1Aey8HQUDEck1Q#/)
 
 The **AWS Cloud Development Kit (AWS CDK)** is an open-source software development
 framework to define cloud infrastructure in code and provision it through AWS CloudFormation.
